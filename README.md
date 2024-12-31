@@ -21,7 +21,7 @@ Welcome to **PassGen**, a secure password generator written in Ruby that impleme
 
 1. **Clone the repository**:
     ```sh
-    git clone https://github.com/yourusername/passgen.git
+    git clone https://github.com/jgutierrezgil/passgen.git
     cd passgen
     ```
 
