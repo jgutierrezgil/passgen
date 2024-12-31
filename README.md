@@ -43,7 +43,7 @@ ruby lib/password_generator.rb
 
 ```ruby
 # Create a password generator
-generator = PasswordGenerator.new(min_length: 8, max_length: 100)
+generator = PasswordGenerator.new(min_length: 8, max_length: 64)
 
 # Generate a password with special characters
 result = generator.generate!(12, include_special: true)
