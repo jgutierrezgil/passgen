@@ -38,7 +38,7 @@ class PasswordGenerator
   # @param min_length [Integer] minimum allowed password length
   # @param max_length [Integer] maximum allowed password length
   # @raise [ArgumentError] if min_length is greater than max_length
-  def initialize(min_length: 8, max_length: 100)
+  def initialize(min_length: 8, max_length: 64)
     @min_length = min_length
     @max_length = max_length
     @all_chars = ALPHANUMERIC_CHARS + SPECIAL_CHARS
@@ -224,5 +224,34 @@ class PasswordStrengthAnalyzer
   # @return [Array<String>] frozen array of common passwords
   def load_common_passwords
     ['password', '123456', 'qwerty'].freeze
+  end
+end
+
+if __FILE__ == $PROGRAM_NAME
+  generator = PasswordGenerator.new
+  length = nil
+
+  puts "=== Secure Password Generator ==="
+  loop do
+    print "Enter desired password length (8-64): "
+    length = gets.chomp.to_i
+    break if length.between?(8, 64)
+    puts "Invalid length. Please enter a number between 8 and 64."
+  end
+
+  print "Include special characters? (y/N): "
+  include_special = gets.chomp.downcase == 'y' # Include special characters? 
+
+  begin
+    result = generator.generate!(length, include_special: include_special)
+    puts "\nGenerated Password: #{result[:password]}"
+    puts "Strength: #{result[:strength][:strength]}"
+    puts "Score: #{result[:strength][:score]}"
+    puts "\nStrength Analysis:"
+    result[:strength][:details].each do |check, passed|
+      puts "- #{check}: #{passed}"
+    end
+  rescue ArgumentError => e
+    puts "Error: #{e.message}"
   end
 end
